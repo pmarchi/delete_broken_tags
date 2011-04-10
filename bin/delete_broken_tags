@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+#encoding: utf-8
+
+$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+
+require 'init'
+require 'delete_broken_tags'
+
+# DeleteBrokenTags::FirstTimeAuth.new.request_access
+
+app = DeleteBrokenTags.new
+
+app.broken_tags
+

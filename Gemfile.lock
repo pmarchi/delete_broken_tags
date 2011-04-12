@@ -1,12 +1,16 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    colored (1.2)
     flickraw (0.8.4)
       json (>= 1.1.1)
+    highline (1.6.1)
     json (1.5.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  colored
   flickraw
+  highline

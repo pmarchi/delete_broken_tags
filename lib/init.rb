@@ -1,12 +1,12 @@
 
 require 'bundler/setup'
 require 'flickraw'
+require 'yaml'
 
 BASE = File.expand_path(File.dirname(__FILE__) + '/../')
 
-#----------------------------------------------------------- load access token
-AUTH_TOKEN = File.read(File.join(BASE, 'conf/token')).strip
+#---------------------------------- load api_key, shared_secret and auth_token
+APP = YAML.load_file(File.join(BASE, 'config/app.yml'))
 
-
-FlickRaw.api_key = '9534990f11afeac7ca25651966ae9f69'
-FlickRaw.shared_secret = 'd1f2b7fb91c5e943'
+FlickRaw.api_key = APP['api_key']
+FlickRaw.shared_secret = APP['shared_secret']

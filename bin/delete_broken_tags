@@ -4,11 +4,27 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
 require 'init'
-require 'delete_broken_tags'
+require 'highline/import'
+require 'colored'
+require 'dbt'
+require 'pp'
 
-# DeleteBrokenTags::FirstTimeAuth.new.request_access
+DBT.auth
 
-app = DeleteBrokenTags.new
+DBT::Tag.confirm_broken
 
-app.broken_tags
+DBT::Photo.find.each do |photo|
+  puts "Photo ID: #{photo.id}"
+  photo.tags.each do |tag|
+    if tag.broken?
+      puts " * " + tag.content.bold.red
+      photo.delete_tag(tag)
+    else
+      puts " * " + tag.content.green
+    end
+  end
+  puts
+  STDIN.getc
+end
+
 

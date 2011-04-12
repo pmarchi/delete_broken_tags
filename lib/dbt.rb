@@ -1,9 +1,9 @@
 
+require 'highline/import'
+
 module DBT
   autoload :Photo, 'dbt/photo.rb'
   autoload :Tag, 'dbt/tag.rb'
-  
-  class TagHasNoId < RuntimeError; end
   
   def self.auth
     # # From here you are logged:

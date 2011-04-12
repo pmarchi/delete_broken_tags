@@ -19,12 +19,7 @@ class DBT::Photo
     end
   end
   
-  def info
-    @info ||= flickr.photos.getInfo(:photo_id => id)
-  end
-  
   def delete_tag(tag)
-    raise DBT::TagHasNoId unless tag.id
     flickr.photos.removeTag(:photo_id => id, :tag_id => tag.id)
     @tags = nil
   end

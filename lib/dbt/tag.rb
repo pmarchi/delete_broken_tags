@@ -11,7 +11,7 @@ class DBT::Tag
     @broken = self.find.select do |tag|
       print tag.ljust(32)
       if tag =~ /#{BROKEN_CHARS.join('|')}/
-        DBT.confirm
+        DBT.confirm('broken? ')
       else
         puts 'ok'
         false

@@ -9,7 +9,24 @@ require 'dbt'
 
 DBT.auth
 
+puts
 DBT::Tag.confirm_broken
+puts
+
+if DBT::Tag.confirmed_broken.empty?
+  puts "No broken tags were found or confirmed."
+  puts
+  exit
+else
+  puts "Broken tags:"
+  DBT::Tag.confirmed_broken.each do |tag|
+    puts " * " + tag.bold.red
+  end
+  puts
+  DBT.confirm "Is this list correct? "
+  puts
+end
+  
 
 DBT::Photo.find.each do |photo|
   puts "Photo ID: #{photo.id}"
@@ -22,7 +39,6 @@ DBT::Photo.find.each do |photo|
     end
   end
   puts
-  STDIN.getc
 end
 
 

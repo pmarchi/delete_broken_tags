@@ -2,7 +2,7 @@
 class DBT::Photo
   
   def self.find
-    flickr.people.getPhotos(:user_id => 'me').map do |photo|
+    flickr.people.getPhotos(:user_id => 'me', :per_page => 500).map do |photo|
       self.new(photo)
     end
   end

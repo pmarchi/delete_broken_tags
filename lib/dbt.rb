@@ -11,8 +11,8 @@ module DBT
     @auth ||= flickr.auth.checkToken :auth_token => APP['auth_token']
   end
   
-  def self.confirm
-    answer = ask("broken? ") do |q|
+  def self.confirm(question)
+    answer = ask(question) do |q|
       q.character = true
       q.validate = /^[yn]$/
       q.responses[:ask_on_error] = :question

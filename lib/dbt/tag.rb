@@ -1,21 +1,13 @@
 #encoding: utf-8
 
 class DBT::Tag
-  BROKEN_CHARS = %w( ÿ ž ‘ )
-  
   def self.find
     flickr.tags.getListUser['tags']
   end
   
   def self.confirm_broken
     @broken = self.find.select do |tag|
-      print tag.ljust(32)
-      if tag =~ /#{BROKEN_CHARS.join('|')}/
-        DBT.confirm('broken? ')
-      else
-        puts 'ok'
-        false
-      end
+      yield tag
     end
   end
   
@@ -32,10 +24,11 @@ class DBT::Tag
   end
   
   def broken?
-    list_of_broken_tags.include?(@content)
+    broken_tags.include?(@content)
   end
   
-  def list_of_broken_tags
-    self.class.instance_variable_get('@broken')
+  def broken_tags
+    self.class.confirmed_broken
+    # self.class.instance_variable_get('@broken')
   end
 end

@@ -2,10 +2,24 @@
 
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
+if ARGV.empty?
+  puts
+  puts "#{File.basename($0)} <PERMISSION>"
+  puts
+  puts "Where PERMISSION is on of:"
+  puts "  read"
+  puts "  write"
+  puts "  delete"
+  puts
+  exit
+end
+
+permission = ARGV.first
+
 require 'init'
 
 frob = flickr.auth.getFrob
-auth_url = FlickRaw.auth_url :frob => frob, :perms => 'write'
+auth_url = FlickRaw.auth_url :frob => frob, :perms => permission
 
 puts "Open this url in your process to complete the authication process : #{auth_url}"
 puts "Press Enter when you are finished."

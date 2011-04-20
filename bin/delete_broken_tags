@@ -3,16 +3,43 @@
 
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
-require 'init'
 require 'colored'
+require 'highline/import'
+require 'init'
 require 'dbt'
+
+def confirm(question)
+  answer = ask(question) do |q|
+    q.character = true
+    q.validate = /^[yn]$/
+    q.responses[:ask_on_error] = :question
+    q.responses[:not_valid] = ''
+  end
+  answer == 'y'
+end
+
+broken_tags_rx = Regexp.new(APP['broken_tags'])
 
 DBT.auth
 
+# List all tags
 puts
-DBT::Tag.confirm_broken
+puts "All tags:"
+puts DBT::Tag.find.to_a.join(', ')
 puts
 
+# Confirm every tag which matches the configured regexp if it's broken.
+puts "Potentially broken tags to confirm:"
+DBT::Tag.confirm_broken do |tag|
+  if broken_tags_rx.match(tag)
+    confirm "Is tag '#{tag.yellow.bold}' broken? "
+  else
+    false
+  end
+end
+puts
+
+# Check the list.
 if DBT::Tag.confirmed_broken.empty?
   puts "No broken tags were found or confirmed."
   puts
@@ -23,11 +50,13 @@ else
     puts " * " + tag.bold.red
   end
   puts
-  DBT.confirm "Is this list correct? "
+  exit unless confirm "Is this list correct? "
   puts
 end
-  
 
+exit
+
+# Loop over all photos and remove the broken tags from them.
 DBT::Photo.find.each do |photo|
   puts "Photo ID: #{photo.id}"
   photo.tags.each do |tag|

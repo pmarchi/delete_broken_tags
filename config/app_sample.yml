@@ -1,0 +1,6 @@
+# Copy to app.yml and fill in the apprioprate values.
+api_key:        <YOUR FLICKR API_KEY>
+shared_secret:  <YOUR FLICKR SHARED_SECRET>
+auth_token:     <YOUR FLICKR AUTH_TOKEN>
+# A regexp which should catch broken tags.
+broken_tags:    <REGEXP>
